@@ -38,11 +38,10 @@ const components = {
     videoEmbed: ({ value }: any) => (
       <div className="my-12 aspect-video overflow-hidden rounded-2xl border border-blue-500/20 bg-slate-900 shadow-2xl shadow-blue-500/5">
         <ReactPlayer
-          url={value.url}
+          src={value.url}
           width="100%"
           height="100%"
           controls
-          playIcon={<button className="text-5xl text-blue-500">Play</button>}
         />
       </div>
     ),
