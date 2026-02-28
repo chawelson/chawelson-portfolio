@@ -4,6 +4,8 @@ import SiteNav from "@/components/SiteNav";
 import SiteFooter from "@/components/SiteFooter";
 import { BLOG_LIST_QUERY } from "@/sanity/lib/queries";
 
+export const revalidate = 60;
+
 export default async function BlogPage() {
   const posts = await client.fetch(BLOG_LIST_QUERY);
   const hasPosts = Array.isArray(posts) && posts.length > 0;

@@ -6,6 +6,8 @@ import SubscribeForm from "@/components/SubscribeForm";
 import { client } from "@/sanity/lib/client";
 import { HOME_QUERY } from "@/sanity/lib/queries";
 
+export const revalidate = 60;
+
 type HomeData = {
   hero?: any;
   about?: any;

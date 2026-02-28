@@ -6,6 +6,8 @@ import SiteFooter from "@/components/SiteFooter";
 import createImageUrlBuilder from "@sanity/image-url";
 import { BLOG_POST_QUERY } from "@/sanity/lib/queries";
 
+export const revalidate = 60;
+
 const builder = createImageUrlBuilder(client);
 
 async function getPost(slug: string) {

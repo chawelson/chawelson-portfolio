@@ -4,6 +4,8 @@ import SiteNav from "@/components/SiteNav";
 import { client } from "@/sanity/lib/client";
 import { PROJECT_QUERY } from "@/sanity/lib/queries";
 
+export const revalidate = 60;
+
 async function getProject(slug: string) {
   return await client.fetch(PROJECT_QUERY, { slug });
 }

@@ -2,7 +2,7 @@ import {defineQuery} from 'next-sanity'
 
 export const HOME_QUERY = defineQuery(`
 {
-  "hero": *[_type == "hero"][0]{
+  "hero": *[_type == "hero"] | order(_updatedAt desc)[0]{
     greeting,
     firstName,
     lastName,
@@ -15,7 +15,7 @@ export const HOME_QUERY = defineQuery(`
     socialLinks,
     availabilityBadge
   },
-  "about": *[_type == "about"][0]{
+  "about": *[_type == "about"] | order(_updatedAt desc)[0]{
     sectionLabel,
     headline,
     paragraph1,
