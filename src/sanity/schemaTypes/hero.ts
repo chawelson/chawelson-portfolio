@@ -46,8 +46,7 @@ export default {
       options: {
         hotspot: true,
       },
-      description: 'Main profile image displayed on the right',
-      validation: (Rule: any) => Rule.required(),
+      description: 'Optional. Not currently displayed on the homepage.',
     },
     {
       name: 'ctaPrimary',
@@ -83,7 +82,8 @@ export default {
           name: 'cvFile',
           title: 'CV File',
           type: 'file',
-          description: 'Upload your CV PDF file',
+          options: { accept: '.pdf' },
+          description: 'Upload PDF only',
         },
       ],
     },

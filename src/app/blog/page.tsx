@@ -1,15 +1,11 @@
 import { client } from "@/sanity/lib/client";
-import { defineQuery } from "next-sanity";
 import Link from "next/link";
 import SiteNav from "@/components/SiteNav";
 import SiteFooter from "@/components/SiteFooter";
-
-const BLOG_QUERY = defineQuery(`*[_type == "post"] | order(publishedAt desc) {
-  _id, title, "slug": slug.current, excerpt, publishedAt
-}`);
+import { BLOG_LIST_QUERY } from "@/sanity/lib/queries";
 
 export default async function BlogPage() {
-  const posts = await client.fetch(BLOG_QUERY);
+  const posts = await client.fetch(BLOG_LIST_QUERY);
   const hasPosts = Array.isArray(posts) && posts.length > 0;
 
   return (
@@ -27,13 +23,13 @@ export default async function BlogPage() {
               <Link key={post._id} href={`/blog/${post.slug}`} className="group block border border-white/5 rounded-2xl p-6 hover:border-blue-500/40 transition-colors">
                 <article>
                   <p className="text-blue-500 font-mono text-xs mb-2">
-                    {new Date(post.publishedAt).toLocaleDateString()}
+                    {post?.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : ""}
                   </p>
                   <h2 className="text-3xl font-bold group-hover:text-blue-400 transition-colors mb-4 leading-tight">
                     {post.title}
                   </h2>
                   <p className="text-slate-400 text-lg line-clamp-2 leading-relaxed italic">
-                    {post.excerpt}
+                    {post.excerpt || "No excerpt yet."}
                   </p>
                   <div className="mt-6 flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-slate-500">
                     Read Article <span className="group-hover:translate-x-2 transition-transform">-&gt;</span>

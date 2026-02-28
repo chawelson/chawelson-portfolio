@@ -10,8 +10,10 @@ export default function SiteNav() {
   const links = useMemo(
     () => [
       { href: "/#about", label: "About", sectionId: "about" },
-      { href: "/#experience", label: "Experience", sectionId: "experience" },
+      { href: "/#experience", label: "Skills & Experience", sectionId: "experience" },
+      { href: "/#services", label: "Services", sectionId: "services" },
       { href: "/#work", label: "Work", sectionId: "work" },
+      { href: "/#testimonials", label: "Testimonials", sectionId: "testimonials" },
       { href: "/blog", label: "Blog" },
       { href: "/contact", label: "Hire Me", accent: true },
     ],

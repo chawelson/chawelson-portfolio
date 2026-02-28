@@ -3,19 +3,13 @@ import BlogContent from "@/components/BlogContent";
 import Link from "next/link";
 import SiteNav from "@/components/SiteNav";
 import SiteFooter from "@/components/SiteFooter";
-import urlBuilder from "@sanity/image-url";
+import createImageUrlBuilder from "@sanity/image-url";
+import { BLOG_POST_QUERY } from "@/sanity/lib/queries";
 
-const builder = urlBuilder(client);
+const builder = createImageUrlBuilder(client);
 
 async function getPost(slug: string) {
-  const query = `*[_type == "post" && slug.current == $slug][0]{
-    title,
-    summary,
-    mainImage,
-    content,
-    publishedAt
-  }`;
-  return await client.fetch(query, { slug });
+  return await client.fetch(BLOG_POST_QUERY, { slug });
 }
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -38,19 +32,19 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               {post.title}
             </h1>
             <p className="text-xl text-slate-400 italic mb-8 border-l border-slate-800 pl-6">
-              {post.summary}
+              {post.excerpt}
             </p>
             <div className="flex items-center gap-4 text-xs font-mono text-slate-600 uppercase tracking-widest">
-              <span>Josh Chawelson</span>
+              <span>{post.authorName || "Josh Chawelson"}</span>
               <span>-</span>
               <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
             </div>
           </header>
 
-          {post.mainImage && (
+          {post.image && (
             <div className="mb-16 rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
               <img
-                src={builder.image(post.mainImage).url()}
+                src={builder.image(post.image).url()}
                 className="w-full grayscale hover:grayscale-0 transition-all duration-1000"
                 alt={post.title}
               />

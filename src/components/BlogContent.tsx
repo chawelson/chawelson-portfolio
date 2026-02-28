@@ -1,10 +1,10 @@
 "use client";
 import { PortableText } from "@portabletext/react";
 import dynamic from "next/dynamic";
-import urlBuilder from "@sanity/image-url";
+import createImageUrlBuilder from "@sanity/image-url";
 import { client } from "@/sanity/lib/client";
 
-const builder = urlBuilder(client);
+const builder = createImageUrlBuilder(client);
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 const components = {
