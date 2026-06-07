@@ -29,6 +29,7 @@ export default {
           { title: 'Mobile Apps', value: 'Mobile Apps' },
           { title: 'UI/UX Design', value: 'UI/UX Design' },
           { title: 'AI Solutions', value: 'AI Solutions' },
+          { title: 'Legal', value: 'Legal' },
         ],
       },
       validation: (Rule: any) => Rule.required(),

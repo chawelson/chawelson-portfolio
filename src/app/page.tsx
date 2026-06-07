@@ -3,6 +3,10 @@ import SiteFooter from "@/components/SiteFooter";
 import SiteNav from "@/components/SiteNav";
 import ContactForm from "@/components/ContactForm";
 import SubscribeForm from "@/components/SubscribeForm";
+import ProjectsShowcase from "@/components/home/ProjectsShowcase";
+import ServicesCarousel from "@/components/home/ServicesCarousel";
+import TestimonialsCarousel from "@/components/home/TestimonialsCarousel";
+import TrustedBy from "@/components/home/TrustedBy";
 import { client } from "@/sanity/lib/client";
 import { HOME_QUERY } from "@/sanity/lib/queries";
 
@@ -93,36 +97,48 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <section id="about" className="py-20 px-6 max-w-7xl mx-auto border-t border-white/10">
-          <p className="text-lime-300 uppercase tracking-[0.2em] text-xs mb-3">
-            {about?.sectionLabel || "About"}
-          </p>
-          <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-8">
-            {about?.headline || "Professional Problem Solutions"}
-          </h2>
-          <div className="grid lg:grid-cols-2 gap-10">
-            <div className="space-y-6 text-slate-300 text-lg leading-relaxed">
-              <p>{about?.paragraph1 || "Update this from Sanity About section."}</p>
-              <p>{about?.paragraph2 || ""}</p>
-              <a
-                href={about?.ctaLink || "#services"}
-                className="inline-block mt-2 text-lime-300 font-semibold hover:text-lime-200"
-              >
-                {about?.ctaText || "Learn More"}
-              </a>
+        <section id="about" className="py-24 px-6 max-w-7xl mx-auto border-t border-white/10">
+          <div className="grid lg:grid-cols-[1fr_1fr] gap-10 items-start">
+            <div className="relative">
+              {about?.imageUrl ? (
+                <img
+                  src={about.imageUrl}
+                  alt="About"
+                  className="w-full rounded-3xl border border-white/10 object-cover min-h-[520px]"
+                />
+              ) : (
+                <div className="w-full min-h-[520px] rounded-3xl border border-white/10 bg-white/5" />
+              )}
+              <div className="absolute right-4 bottom-4 w-24 h-24 rounded-full border-2 border-lime-300/70 bg-black/70 flex flex-col items-center justify-center">
+                <span className="text-4xl font-black text-lime-300">{hero?.stats?.[0]?.value || "15+"}</span>
+                <span className="text-xs text-slate-300">Years</span>
+              </div>
             </div>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {(about?.highlights || []).slice(0, 4).map((item: any, idx: number) => (
-                <div key={idx} className="rounded-xl border border-white/10 bg-white/5 p-4">
-                  <p className="text-white font-semibold mb-1">{item?.title || "Highlight"}</p>
-                  <p className="text-slate-400 text-sm">{item?.description || ""}</p>
-                </div>
-              ))}
+            <div>
+              <p className="text-lime-300 font-semibold mb-3">{about?.sectionLabel || "About Me"}</p>
+              <h2 className="text-6xl md:text-7xl font-black leading-[0.95] tracking-tight mb-7">
+                {about?.headline || "Professional Problem Solutions For Digital Products"}
+              </h2>
+              <div className="space-y-5 text-slate-300 text-3xl leading-relaxed mb-8">
+                <p>{about?.paragraph1 || "Update this from Sanity."}</p>
+                <p>{about?.paragraph2 || ""}</p>
+              </div>
+              <div className="grid sm:grid-cols-3 gap-4 mb-8">
+                {(about?.highlights || []).slice(0, 3).map((item: any, idx: number) => (
+                  <div key={idx} className="rounded-2xl border border-white/15 bg-white/5 p-5">
+                    <p className="text-3xl font-black mb-1">{item?.title || "15+ Years"}</p>
+                    <p className="text-slate-400">{item?.description || ""}</p>
+                  </div>
+                ))}
+              </div>
+              <a href={about?.ctaLink || "#services"} className="text-lime-300 font-bold text-2xl hover:text-lime-200">
+                {about?.ctaText || "Learn More About Me"} ?
+              </a>
             </div>
           </div>
         </section>
 
-        <section id="experience" className="py-20 px-6 max-w-7xl mx-auto border-t border-white/10">
+        <section id="experience" className="py-28 px-6 max-w-7xl mx-auto border-t border-white/10">
           <p className="text-center text-slate-400 uppercase text-sm tracking-[0.15em] mb-3">
             A problem is an opportunity to do your best.
           </p>
@@ -156,79 +172,14 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <section id="services" className="py-20 px-6 max-w-7xl mx-auto border-t border-white/10">
-          <h2 className="text-4xl font-black mb-8">Services</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {services.map((service: any) => (
-              <article key={service._id} className="rounded-xl border border-white/10 bg-white/5 p-5">
-                <h3 className="text-xl font-bold mb-2">{service.title}</h3>
-                <p className="text-slate-400 mb-3">{service.description}</p>
-                <div className="flex flex-wrap gap-2">
-                  {(service.features || []).slice(0, 4).map((feature: string, idx: number) => (
-                    <span key={idx} className="text-xs px-2 py-1 rounded bg-black/40 border border-white/10">
-                      {feature}
-                    </span>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
+        <ServicesCarousel services={services} />
+        <ProjectsShowcase projects={projects} />
+        <TestimonialsCarousel testimonials={testimonials} />
+        <TrustedBy companies={companies} />
 
-        <section id="work" className="py-20 px-6 max-w-7xl mx-auto border-t border-white/10">
-          <h2 className="text-5xl font-black mb-10">Featured Work</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            {projects.map((project: any) => (
-              <article key={project._id} className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden">
-                {project.imageUrl ? (
-                  <img src={project.imageUrl} alt={project.title} className="w-full h-64 object-cover" />
-                ) : null}
-                <div className="p-6">
-                  <p className="text-lime-300 text-xs uppercase tracking-widest mb-2">{project.category}</p>
-                  <h3 className="text-2xl font-bold mb-2">{project.title}</h3>
-                  <p className="text-slate-400 mb-4">{project.description}</p>
-                  <Link href={`/projects/${project.slug}`} className="text-lime-300 font-semibold hover:text-lime-200">
-                    Read project details →
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="testimonials" className="py-20 px-6 max-w-7xl mx-auto border-t border-white/10">
-          <h2 className="text-4xl font-black mb-8">Testimonials</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {testimonials.map((item: any) => (
-              <article key={item._id} className="rounded-xl border border-white/10 bg-white/5 p-5">
-                <p className="text-slate-200 mb-4">"{item.quote}"</p>
-                <p className="font-semibold">{item.name}</p>
-                <p className="text-slate-400 text-sm">{item.role}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="py-20 px-6 max-w-7xl mx-auto border-t border-white/10">
-          <h2 className="text-4xl font-black mb-8">Clients</h2>
-          <div className="flex flex-wrap gap-3">
-            {companies.map((company: any) => (
-              <a
-                key={company._id}
-                href={company.website || "#"}
-                target={company.website ? "_blank" : undefined}
-                rel={company.website ? "noreferrer" : undefined}
-                className="px-4 py-2 rounded-lg border border-white/10 bg-white/5 hover:border-lime-300 transition"
-              >
-                {company.name}
-              </a>
-            ))}
-          </div>
-        </section>
-
-        <section id="blog" className="py-20 px-6 max-w-7xl mx-auto border-t border-white/10">
+        <section id="blog" className="py-28 px-6 max-w-7xl mx-auto border-t border-white/10">
           <div className="flex items-end justify-between mb-8">
-            <h2 className="text-4xl font-black">Blog</h2>
+            <h2 className="text-5xl md:text-6xl font-black">Blog</h2>
             <Link href="/blog" className="text-lime-300 hover:text-lime-200">
               View all
             </Link>
@@ -248,7 +199,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <section className="py-20 px-6 max-w-7xl mx-auto border-t border-white/10">
+        <section className="py-28 px-6 max-w-7xl mx-auto border-t border-white/10">
           <div className="grid lg:grid-cols-2 gap-6">
             <ContactForm />
             <SubscribeForm />
